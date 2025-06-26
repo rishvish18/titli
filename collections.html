@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections - Titli Collections</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 30%, #ffffff 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navigation styles */
+        #site-header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        #site-header.nav-fixed {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #ff69b4 !important;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 10px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff69b4 !important;
+        }
+
+        /* Breadcrumb section */
+        .w3l-collections-breadcrumb {
+            background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+            padding: 100px 0 50px;
+            color: white;
+            margin-top: 76px;
+        }
+
+        .w3l-collections-breadcrumb h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .w3-services {
+            padding: 60px 0;
+        }
+
+        .collections-header {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .collections-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #ec4899, #fbcfe8);
+            border-radius: 2px;
+        }
+
+        .hny-title {
+            font-family: 'Playfair Display', serif;
+            color: #ec4899;
+            font-weight: 700;
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(236, 72, 153, 0.1);
+        }
+
+        .title-content p {
+            color: #666;
+            font-weight: 400;
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .title-content strong {
+            color: #ec4899;
+        }
+
+        .w3-services-grids {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .causes-grid {
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-bottom: 40px;
+        }
+
+        .causes-grid-info {
+            background: linear-gradient(145deg, #ffffff, #fef7ff);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.12);
+            border: 1px solid rgba(236, 72, 153, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .causes-grid-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #ec4899, #fbcfe8);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .causes-grid-info:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.2);
+            background: linear-gradient(145deg, #ffffff, #fce7f3);
+        }
+
+        .causes-grid-info:hover::before {
+            transform: scaleX(1);
+        }
+
+        .causes-grid-info img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            margin-bottom: 20px;
+        }
+
+        .causes-grid-info:hover img {
+            transform: scale(1.03);
+            border-radius: 20px;
+        }
+
+        .cause-title-wrap {
+            text-decoration: none;
+        }
+
+        .cause-title {
+            font-family: 'Playfair Display', serif;
+            color: #ec4899;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 15px 0 10px 0;
+            transition: color 0.3s ease;
+            text-align: center;
+        }
+
+        .cause-title-wrap:hover .cause-title {
+            color: #be185d;
+            text-decoration: none;
+        }
+
+        .card-text {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-style {
+            background: linear-gradient(135deg, #ec4899, #fbcfe8);
+            border: none;
+            color: #fff !important;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(236, 72, 153, 0.25);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-style::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-style:hover {
+            background: linear-gradient(135deg, #be185d, #f9a8d4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35);
+            color: #fff !important;
+        }
+
+        .btn-style:hover::before {
+            left: 100%;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .price-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ec4899;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hny-title {
+                font-size: 2.5rem;
+            }
+
+            .title-content p {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+
+            .causes-grid-info img {
+                height: 200px;
+            }
+            
+            .w3l-collections-breadcrumb h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hny-title {
+                font-size: 2rem;
+            }
+
+            .cause-title {
+                font-size: 1.2rem;
+            }
+
+            .causes-grid-info img {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header id="site-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Titli Collections</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="collections.html">Collections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Collections breadcrumb -->
+    <section class="w3l-collections-breadcrumb position-relative text-center">
+        <div class="container">
+            <h1>Our Collections</h1>
+            <p class="lead">Discover our exclusive range of designer suits</p>
+        </div>
+    </section>
+
+    <div class="w3-services">
+        <div class="container py-lg-4">
+            <div class="collections-header">
+                <h3 class="hny-title">Latest Designs</h3>
+                <div class="title-content">
+                    <p><strong>Empower Your Style</strong> – Shop Chic & Sophisticated Women's Suits!</p>
+                </div>
+            </div>
+
+            <div class="row w3-services-grids">
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab1.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab2.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab3.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab4.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab5.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 causes-grid">
+                    <div class="causes-grid-info">
+                        <a href="blog-single.html">
+                            <img src="images/ab6.jpeg" class="img-fluid" alt="Cotton Suit">
+                        </a>
+                        <a href="#" class="cause-title-wrap">
+                            <h4 class="cause-title">Cotton Suit</h4>
+                        </a>
+                        <p class="price-text">₹2,999</p>
+                        <div class="btn-container">
+                            <a href="services.html" class="btn btn-style">Best Offers</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3l-footer-29-main" style="background-color: #f8f9fa; padding: 40px 0; margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h5 style="color: #ff69b4; font-family: 'Playfair Display', serif;">Titli Collections</h5>
+                    <p>Your one-stop destination for beautiful wedding and party wear suits.</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6 style="color: #ff69b4;">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" style="color: #555;">Home</a></li>
+                        <li><a href="about.html" style="color: #555;">About</a></li>
+                        <li><a href="collections.html" style="color: #555;">Collections</a></li>
+                        <li><a href="contact.html" style="color: #555;">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6 style="color: #ff69b4;">Follow Us</h6>
+                    <div class="social-icons-section">
+                        <a href="#" style="color: #ff69b4; margin: 0 5px; font-size: 1.2rem;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" style="color: #ff69b4; margin: 0 5px; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #ff69b4; margin: 0 5px; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #ff69b4; margin: 0 5px; font-size: 1.2rem;"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #ffb6c1;">
+            <div class="text-center">
+                <p style="color: #777;">&copy; 2024 Titli Collections. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(function () {
+            $('.navbar-toggler').click(function () {
+                $('body').toggleClass('noscroll');
+            });
+        });
+
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Titli Collections</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+    body {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 30%, #ffffff 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* Navigation Styles */
+    .navbar-nav li {
+      position: relative;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar-nav li a.nav-link {
+      font-weight: 600;
+      padding: 8px 15px;
+      color: #000;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-nav li a.nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background: #ff1493;
+      transition: width 0.3s ease;
+    }
+
+    .navbar-nav li:hover {
+      transform: scale(1.08);
+    }
+
+    .navbar-nav li:hover a.nav-link,
+    .navbar-nav li a.nav-link.active {
+      color: #ff1493 !important;
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.7);
+    }
+
+    .navbar-nav li:hover a.nav-link::after,
+    .navbar-nav li a.nav-link.active::after {
+      width: 100%;
+    }
+
+    .navbar-nav li a.nav-link.active {
+      font-weight: 700;
+    }
+
+    /* Header Styles */
+    #site-header {
+      background-color: white;
+      width: 100%;
+      margin: 0;
+      padding: 10px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1030;
+    }
+
+    nav.navbar {
+      margin: 0 !important;
+      padding: 0 15px !important;
+    }
+
+    .navbar-brand img {
+      max-height: 60px;
+      width: auto;
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 12px;
+      font-size: 1.25rem;
+      background-color: #ff1493;
+      border-radius: 5px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .search-right .btn {
+      color: #ff1493;
+      font-size: 1.2rem;
+      padding: 8px 12px;
+      border: 2px solid #ff1493;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .search-right .btn:hover {
+      background-color: #ff1493;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background-color: white;
+        border-top: 2px solid #ff1493;
+        margin-top: 10px;
+        padding: 15px 0;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .navbar-nav {
+        text-align: center;
+        width: 100%;
+      }
+
+      .navbar-nav li {
+        margin: 5px 0;
+      }
+
+      .navbar-nav li a.nav-link {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+        display: block;
+        border-radius: 5px;
+        margin: 0 10px;
+      }
+
+      .navbar-nav li:hover {
+        transform: none;
+      }
+
+      .navbar-nav li:hover a.nav-link {
+        background-color: #ff1493;
+        color: white !important;
+        text-shadow: none;
+      }
+
+      .search-right {
+        justify-content: center;
+        margin-top: 15px;
+      }
+
+      .navbar-brand img {
+        max-height: 50px;
+      }
+
+      #site-header {
+        padding: 8px 0;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .navbar-brand img {
+        max-height: 45px;
+      }
+
+      .navbar-nav li a.nav-link {
+        font-size: 1rem;
+        padding: 10px 15px;
+      }
+
+      nav.navbar {
+        padding: 0 10px !important;
+      }
+    }
+
+    /* Search Popup */
+    .pop-overlay {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: -100%;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      transition: all 0.5s;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 9999;
+    }
+
+    .pop-overlay:target {
+      visibility: visible;
+      opacity: 1;
+      left: 0;
+    }
+
+    .popup {
+      background: #fff;
+      border-radius: 5px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      padding: 30px;
+      margin: 10% auto;
+    }
+
+    .popup form {
+      display: flex;
+      align-items: center;
+    }
+
+    .popup input[type="search"] {
+      border: 2px solid #ff1493;
+      padding: 12px 15px;
+      border-radius: 5px 0 0 5px;
+      flex: 1;
+      font-size: 1rem;
+    }
+
+    .popup button {
+      background: #ff1493;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .popup .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #999;
+      font-size: 30px;
+      text-decoration: none;
+    }
+
+    .popup .close:hover {
+      color: #ff1493;
+    }
+
+    /* Main Content Styles */
+    .nav-spacer {
+      height: 120px;
+      width: 100%;
+    }
+
+    .w3-services {
+      padding: 60px 0;
+    }
+
+    .collections-header {
+      text-align: center;
+      margin-bottom: 70px;
+      position: relative;
+    }
+
+    .collections-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(135deg, #ec4899, #fbcfe8);
+      border-radius: 2px;
+    }
+
+    .hny-title {
+      font-family: 'Playfair Display', serif;
+      color: #ec4899;
+      font-weight: 700;
+      font-size: 3.2rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(236, 72, 153, 0.1);
+    }
+
+    .title-content p {
+      color: #666;
+      font-weight: 400;
+      font-size: 1.3rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .title-content strong {
+      color: #ec4899;
+    }
+
+    .w3-services-grids {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+
+    .causes-grid {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-bottom: 40px;
+    }
+
+    .causes-grid-info {
+      background: linear-gradient(145deg, #ffffff, #fef7ff);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.12);
+      border: 1px solid rgba(236, 72, 153, 0.08);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .causes-grid-info::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #ec4899, #fbcfe8);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .causes-grid-info:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(236, 72, 153, 0.2);
+      background: linear-gradient(145deg, #ffffff, #fce7f3);
+    }
+
+    .causes-grid-info:hover::before {
+      transform: scaleX(1);
+    }
+
+    .causes-grid-info img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      margin-bottom: 20px;
+    }
+
+    .causes-grid-info:hover img {
+      transform: scale(1.03);
+      border-radius: 20px;
+    }
+
+    .cause-title-wrap {
+      text-decoration: none;
+    }
+
+    .cause-title {
+      font-family: 'Playfair Display', serif;
+      color: #ec4899;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 15px 0 10px 0;
+      transition: color 0.3s ease;
+      text-align: center;
+    }
+
+    .cause-title-wrap:hover .cause-title {
+      color: #be185d;
+      text-decoration: none;
+    }
+
+    .card-text {
+      color: #666;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .btn-style {
+      background: linear-gradient(135deg, #ec4899, #fbcfe8);
+      border: none;
+      color: #fff !important;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 18px rgba(236, 72, 153, 0.25);
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-style::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-style:hover {
+      background: linear-gradient(135deg, #be185d, #f9a8d4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35);
+    }
+
+    .btn-style:hover::before {
+      left: 100%;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .price-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #ec4899;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    /* Sold Out */
+    .sold-out-section .causes-grid-info {
+      background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
+      border: 1px solid rgba(150, 150, 150, 0.2);
+      opacity: 0.8;
+    }
+
+    .sold-out-section .causes-grid-info:hover {
+      background: linear-gradient(145deg, #f5f5f5, #e8e8e8);
+      box-shadow: 0 15px 40px rgba(150, 150, 150, 0.15);
+    }
+
+    .sold-out-section .causes-grid-info img {
+      filter: grayscale(50%);
+      opacity: 0.7;
+    }
+
+    .sold-out-section .causes-grid-info:hover img {
+      filter: grayscale(30%);
+      opacity: 0.8;
+    }
+
+    .sold-out-section .cause-title {
+      color: #888;
+    }
+
+    .sold-out-section .price-text {
+      color: #999;
+    }
+
+    .btn-style.disabled {
+      background: linear-gradient(135deg, #ccc, #ddd);
+      color: #888 !important;
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .blank-section {
+      min-height: 150px;
+      background: transparent;
+    }
+
+    /* Footer Styles */
+    .w3l-footer-66 {
+      background-color: #333;
+      color: white;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    .copyright-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .copyright-footer ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .copyright-footer ul li {
+      margin: 0 10px;
+    }
+
+    .copyright-footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .copyright-footer ul li a:hover {
+      color: #ff1493;
+    }
+
+    /* Back to top */
+    #movetop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff1493;
+      color: white;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    #movetop:hover {
+      background: #d91177;
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .copyright-footer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .copyright-footer .columns {
+        margin: 10px 0;
+      }
+
+      .hny-title {
+        font-size: 2.5rem;
+      }
+
+      .title-content p {
+        font-size: 1.1rem;
+        padding: 0 20px;
+      }
+
+      .causes-grid-info img {
+        height: 200px;
+      }
+
+      .blank-section {
+        min-height: 100px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hny-title {
+        font-size: 2rem;
+      }
+
+      .cause-title {
+        font-size: 1.2rem;
+      }
+
+      .causes-grid-info img {
+        height: 180px;
+      }
+
+      .blank-section {
+        min-height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="site-header" class="fixed-top">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html">
+          <img src="images/LOGO.png" alt="Logo" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="collections.html">Collection</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <ul class="navbar-nav search-right">
+            <li class="nav-item" title="Search">
+              <a href="#search" class="btn search-search">
+                <span class="fa fa-search"></span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Search popup -->
+          <div id="search" class="pop-overlay">
+            <div class="popup">
+              <form action="#" method="GET">
+                <input type="search" placeholder="Search.." name="search" required />
+                <button type="submit">Search</button>
+                <a class="close" href="#">&times;</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="nav-spacer"></div>
+  <div class="blank-section"></div>
+
+  <!-- Latest Designs -->
+  <div class="w3-services">
+    <div class="container py-lg-4">
+      <div class="collections-header">
+        <h3 class="hny-title">Latest Designs</h3>
+        <div class="title-content"><p><strong>Empower Your Style</strong> – Shop Chic & Sophisticated Women's Suits!</p></div>
+      </div>
+      <div class="row w3-services-grids">
+        <!-- Product 1 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab1.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+      
+        <!-- Product 2 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab2.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab3.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab4.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab5.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <a href="#"><img src="images/ab6.jpeg" alt="Cotton Suit" /></a>
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Cotton Suit</h4></a>
+            <p class="price-text">₹2,999</p>
+            <div class="btn-container"><a href="services.html" class="btn btn-style">Best Offers</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="blank-section"></div>
+
+  <!-- Sold Out Stock -->
+  <div class="w3-services sold-out-section">
+    <div class="container py-lg-4">
+      <div class="collections-header">
+        <h3 class="hny-title">Sold Out Stock</h3>
+        <div class="title-content"><p><strong>Sorry!</strong> These products are currently unavailable.</p></div>
+      </div>
+      <div class="row w3-services-grids">
+        <!-- Sold Out Products -->
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 causes-grid">
+          <div class="causes-grid-info">
+            <img src="images/sold1.jpeg" alt="Vintage Suit" />
+            <a href="#" class="cause-title-wrap"><h4 class="cause-title">Vintage Suit</h4></a>
+            <p class="price-text"><del>₹4,999</del> - <span style="color: #dc3545; font-weight: bold;">SOLD OUT</span></p>
+            <div class="btn-container"><a href="#" class="btn btn-style disabled">Out of Stock</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3l-footer-66">
+    <section class="footer-inner-main">
+      <div class="below-section">
+        <div class="container">
+          <div class="copyright-footer">
+            <div class="columns">
+              <p>© 2025 Titli Collections. All rights reserved.</p>
+            </div>
+            <ul class="columns">
+              <li><a href="#">Privacy Policy</a></li>
+              <li>|</li>
+              <li><a href="#">Terms Of Use</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fa fa-long-arrow-up"></span>
+      </button>
+    </section>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Scroll-to-top functionality
+    window.onscroll = function () {
+      document.getElementById("movetop").style.display =
+        (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)
+          ? "block"
+          : "none";
+    };
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+
+    // Collapse mobile menu on link click
+    $(document).ready(function () {
+      $('.nav-link').on('click', function () {
+        if ($(window).width() < 992) {
+          $('.navbar-collapse').collapse('hide');
+        }
+      });
+
+      // Mobile menu toggle
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      });
+    });
+
+    // Header scroll effects
+    $(window).on("scroll", function () {
+      var scroll = $(window).scrollTop();
+      if (scroll >= 80) {
+        $("#site-header").addClass("nav-fixed");
+      } else {
+        $("#site-header").removeClass("nav-fixed");
+      }
+    });
+
+    // Mobile
